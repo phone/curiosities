@@ -1,0 +1,29 @@
+Sometimes it's necessary to take a bunch of 3D points and for each one,
+identify which of the others are within some surrounding area. One
+often-proposed strategy is to make a hash table of all the points, keyed by
+some hash of their coordinates. Then you can solve the original problem by, for
+each point, generating all possible points discretized to some reasonable
+resolution within its surrounding area, and checking if there is such a point
+in the hash table.
+
+This curiosity attempts a different approach, where we instead sort by morton
+order of the coordinates and then, for each point, scan up and down. Since
+we're sorted, we can put a limit on the scans. This program is just a gut check
+on the total number of operations versus the hash table approach. But of course
+it has other advantages -- I think the cache locality would be much better, for
+example. The downside is, you basically have to quantize your coords to ints,
+with each of x, y, and z small enough to fit into a short.
+
+Examples runs:
+
+morton; ./morton 5
+kernel size: 5: total vertex comparisons: 200488, vs hashtable: 1250000, better: 1, by:     623.48%
+
+morton; ./morton 10
+kernel size: 10: total vertex comparisons: 256070, vs hashtable: 10000000, better: 1, by:    3905.18%
+
+morton; ./morton 15
+kernel size: 15: total vertex comparisons: 323991, vs hashtable: 33750000, better: 1, by:   10416.96%
+
+As expected, the larger the kernel size (i.e. the surrounding area), the larger
+the performance advantage.
