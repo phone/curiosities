@@ -27,3 +27,7 @@ kernel size: 15: total vertex comparisons: 323991, vs hashtable: 33750000, bette
 
 As expected, the larger the kernel size (i.e. the surrounding area), the larger
 the performance advantage.
+
+This program was written on a plane to Vancouver in early 2019. I swear I had a
+couple other versions of the morton code generation, including one that used
+intel CPU intrinsics, but what's here is all I can find.
