@@ -17,20 +17,14 @@ struct Scalar_ {
   Op *op;
   float value;
   float delta_root;
-};
-
-static Scalar_ *create_scalar_(float value) {
-  Scalar_ *ret = arena.alloc<Scalar_>();
-  ret->op = arena.alloc<Literal>();
-  ret->value = value;
-  ret->delta_root = 0.f;
-  return ret;
+  Scalar_(float value_)
+      : op(arena.alloc<Literal>()), value(value_), delta_root(0) {}
 };
 
 struct Scalar {
   Scalar_ *scalar;
   Scalar() : scalar(arena.alloc<Scalar_>()) {}
-  Scalar(float value) : scalar(create_scalar_(value)) {}
+  Scalar(float value) : scalar(arena.construct<Scalar_>(value)) {}
   Scalar(Scalar_ *scalar_) : scalar(scalar_) {}
   float value() {
     ASSERT(scalar);
