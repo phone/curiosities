@@ -1,0 +1,11 @@
+Study of Chris Olah's 2015 backprop article:
+https://colah.github.io/posts/2015-08-Backprop/
+
+This little doodle just programs the sum and product rules, and allows reverse
+backprop on scalar expressions. There's a test for the example in Olah's
+article. The interesting stuff is in scalar.hpp.
+
+There's also a simple bump allocator in basic.hpp. Most of its functionality
+isn't really exercised here because this particular program is just too small.
+
+Written in late June/early July 2021 during paternity leave.
