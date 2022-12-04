@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string>
 
-std::string readfile(const char *path) {
+static std::string readfile(const char *path) {
   std::string ret;
   auto f = fopen(path, "r");
   if (f) {
@@ -17,7 +17,7 @@ std::string readfile(const char *path) {
   return ret;
 }
 
-int64_t most_calories(const char *path) {
+static int64_t most_calories(const char *path) {
   int64_t max = INT64_MIN;
   std::string data = readfile(path);
   enum { NUMBER, NEWCAL } state = NUMBER;
@@ -50,7 +50,7 @@ int64_t most_calories(const char *path) {
   return max;
 }
 
-int64_t most_3_calories(const char *path) {
+static int64_t most_3_calories(const char *path) {
   int64_t max1 = INT64_MIN, max2 = INT64_MIN, max3 = INT64_MIN;
   std::string data = readfile(path);
   enum { NUMBER, NEWCAL } state = NUMBER;

@@ -2,6 +2,15 @@
 #include <iostream>
 #include <stdlib.h>
 
+#define CRASH() (((void (*)())0)())
+#define ASSERT(expr)                                                           \
+  do {                                                                         \
+    if (!(expr)) {                                                             \
+      fprintf(stderr, "assert failed: %s\n", #expr);                           \
+      CRASH();                                                                 \
+    }                                                                          \
+  } while (0)
+
 struct Timer {
   const char *_name;
   std::chrono::time_point<std::chrono::high_resolution_clock> _start;
@@ -14,11 +23,12 @@ struct Timer {
               << std::chrono::duration_cast<std::chrono::nanoseconds>(end -
                                                                       _start)
                      .count()
-              << '\n';
+              << "ns" << '\n';
   }
 };
 
 #include "day1.cpp"
+#include "day2.cpp"
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
@@ -38,6 +48,17 @@ int main(int argc, char *argv[]) {
         calories = most_3_calories("1.1.txt");
     }
     fprintf(stdout, "%lld\n", calories);
+  } break;
+  case 2: {
+    int64_t score = 0;
+    {
+      Timer("day 2");
+      if (section & 1)
+        score = score_strategy("2.1.txt");
+      else
+        score = score_strategy2("2.1.txt");
+    }
+    fprintf(stdout, "%lld\n", score);
   } break;
   }
   return 0;
