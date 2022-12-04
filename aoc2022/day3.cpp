@@ -7,8 +7,9 @@ static int64_t prioritize_branchless(char x) {
   // Test the 5th bit. This gives us an unsigned quantity either 0 or 1
   size_t test_lower = (x >> 5) & 1;
   int64_t ret = 0;
-  // If the test passed, unsigned 0 minus the test will produce a 64 bit word
-  // filled with 1s, which can be safely bitwise ANDed with whatever you want
+  // If the test passed, unsigned 0 minus the test will underflow and produce a
+  // 64 bit word filled with 1s, which can be safely bitwise ANDed with whatever
+  // you want
   ret += (0UL - test_lower) & ((x - 'a') + 1);
   ret += (0UL - (!test_lower) & ((x - 'A') + 27));
   return ret;
@@ -75,6 +76,11 @@ static int64_t score_rucksack_weirdness2(const char *path) {
   int sets[2][256] = {};
   size_t skip = 0;
   for (size_t i = 0; i < data.size(); ++i) {
+    // This loop processes a character from either the first two lines of a
+    // group, or the third line. In the first, case, we accumulate our sets, and
+    // tick our linecount each newline. In the second case, we check each letter
+    // against both sets to find if we need to add to our score, and if we get a
+    // newline, we zero all our state.
     if (linecount == 2) {
       if (data[i] == '\n') {
         linecount = 0;
