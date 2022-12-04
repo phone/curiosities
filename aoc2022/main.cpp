@@ -29,6 +29,7 @@ struct Timer {
 
 #include "day1.cpp"
 #include "day2.cpp"
+#include "day3.cpp"
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
@@ -60,6 +61,17 @@ int main(int argc, char *argv[]) {
     }
     fprintf(stdout, "%lld\n", score);
   } break;
+  case 3: {
+    int64_t score = 0;
+    {
+      Timer("day 3");
+      if (section & 1)
+        score = score_rucksack_weirdness("3.1.txt");
+      else
+        score = score_rucksack_weirdness2("3.1.txt");
+    }
+    fprintf(stdout, "%lld\n", score);
+  }
   }
   return 0;
 }
